@@ -5,13 +5,15 @@ import { CheckCircle2, Clock, PlayCircle, Users } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/feedback";
 import { Query } from "@/components/ui/query";
+import { Stars } from "@/components/ui/stars";
 import { EnrollButton } from "@/features/courses/enroll-button";
+import { ReviewsSection } from "@/features/courses/reviews-section";
 import { useApi } from "@/lib/use-api";
 import { formatMinutes } from "@/lib/utils";
 import type { Course } from "@/types";
 
 export function CourseDetail({ slug }: { slug: string }) {
-  const { data: course, error, loading } = useApi<Course>(`/courses/${encodeURIComponent(slug)}`);
+  const { data: course, error, loading, reload } = useApi<Course>(`/courses/${encodeURIComponent(slug)}`);
   if (!loading && !course && error) {
     if (/not found/i.test(error)) notFound();
   }
@@ -31,6 +33,7 @@ export function CourseDetail({ slug }: { slug: string }) {
                 <h1 className="mt-3 text-3xl font-semibold">{course.title}</h1>
                 <p className="mt-2 text-muted-foreground">{course.description}</p>
                 <p className="mt-3 text-sm text-muted-foreground">Instructor: {course.instructor}</p>
+                <Stars value={course.rating} count={course.reviewCount} className="mt-2 text-sm" />
               </header>
 
               {course.objectives.length > 0 && (
@@ -74,6 +77,8 @@ export function CourseDetail({ slug }: { slug: string }) {
                   ))}
                 </div>
               </section>
+
+              {course.status === "published" && <ReviewsSection courseId={course.id} onChanged={reload} />}
 
               {course.prerequisites.length > 0 && (
                 <section aria-labelledby="prereq">

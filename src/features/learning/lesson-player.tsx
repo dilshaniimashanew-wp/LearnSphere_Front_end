@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Award, CheckCircle2, Circle, ClipboardList, HelpCircle, PlayCircle } from "lucide-react";
 import { AssignmentCard } from "@/features/assignments/assignment-card";
+import { AnnouncementsPanel } from "@/features/courses/announcements-panel";
 import { Alert, Badge, PageHeader, ProgressBar } from "@/components/ui/feedback";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -117,6 +118,10 @@ export function LessonPlayer({ courseId }: { courseId: string }) {
                 </div>
               ))}
             </nav>
+          </div>
+
+          <div className="mt-10">
+            <AnnouncementsPanel courseId={courseId} />
           </div>
 
           <section className="mt-10" aria-labelledby="quizzes">
