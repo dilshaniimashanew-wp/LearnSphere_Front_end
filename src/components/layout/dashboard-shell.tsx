@@ -8,6 +8,7 @@ import {
   LogOut, Menu, ScrollText, ShieldCheck, Users, X, Award, UserCircle, type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Avatar } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/feedback";
 import { homePathFor, useAuth } from "@/features/auth/auth-context";
 import type { Role } from "@/types";
@@ -101,7 +102,7 @@ export function DashboardShell({ role, children }: { role: Role; children: React
           LearnSphere
         </Link>
         {nav}
-        <SidebarUser name={user.name} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
+        <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
       </aside>
 
       <div className="flex-1">
@@ -122,7 +123,7 @@ export function DashboardShell({ role, children }: { role: Role; children: React
         {open && (
           <div className="border-b border-border bg-card md:hidden">
             {nav}
-            <SidebarUser name={user.name} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
+            <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
           </div>
         )}
         <main className="mx-auto max-w-5xl p-4 md:p-8">{children}</main>
@@ -131,12 +132,15 @@ export function DashboardShell({ role, children }: { role: Role; children: React
   );
 }
 
-function SidebarUser({ name, role, onLogout }: { name: string; role: Role; onLogout: () => void }) {
+function SidebarUser({ name, avatarUrl, role, onLogout }: { name: string; avatarUrl?: string; role: Role; onLogout: () => void }) {
   return (
     <div className="flex items-center justify-between border-t border-border p-4">
-      <div className="min-w-0">
-        <p className="truncate text-sm font-medium">{name}</p>
-        <p className="text-xs capitalize text-muted-foreground">{role}</p>
+      <div className="flex min-w-0 items-center gap-3">
+        <Avatar name={name} url={avatarUrl} />
+        <div className="min-w-0">
+          <p className="truncate text-sm font-medium">{name}</p>
+          <p className="text-xs capitalize text-muted-foreground">{role}</p>
+        </div>
       </div>
       <button onClick={onLogout} aria-label="Sign out" className="rounded-lg p-2 text-muted-foreground hover:bg-muted">
         <LogOut className="h-4 w-4" />

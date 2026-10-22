@@ -5,6 +5,7 @@ import { Alert, Badge, PageHeader, ProgressBar } from "@/components/ui/feedback"
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Query } from "@/components/ui/query";
+import { AnnouncementsPanel } from "@/features/courses/announcements-panel";
 import { CourseForm } from "@/features/courses/course-form";
 import { AssignmentManager } from "@/features/instructor/assignment-manager";
 import { CurriculumManager } from "@/features/instructor/curriculum-manager";
@@ -79,6 +80,7 @@ export function CourseEditor({ courseId }: { courseId: string }) {
           <CurriculumManager course={c} onChanged={course.reload} />
           <QuizBuilder courseId={c.id} />
           <AssignmentManager courseId={c.id} />
+          <AnnouncementsPanel courseId={c.id} canPost />
 
           <section aria-labelledby="students" className="space-y-3">
             <h2 id="students" className="text-lg font-semibold">

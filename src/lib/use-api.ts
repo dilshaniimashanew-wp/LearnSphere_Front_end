@@ -42,6 +42,6 @@ export function useApi<T>(path: string | null) {
   return { data, error, loading, reload, setData };
 }
 
-export function send<T = unknown>(method: "POST" | "PATCH" | "DELETE", path: string, body?: unknown) {
+export function send<T = unknown>(method: "POST" | "PUT" | "PATCH" | "DELETE", path: string, body?: unknown) {
   return api<T>(path, { method, body: body === undefined ? undefined : JSON.stringify(body) });
 }

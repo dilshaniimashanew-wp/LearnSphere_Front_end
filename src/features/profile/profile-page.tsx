@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { Alert, PageHeader } from "@/components/ui/feedback";
 import { Field, Input } from "@/components/ui/form";
 import { useAuth } from "@/features/auth/auth-context";
+import { AvatarUploader } from "@/features/profile/avatar-uploader";
 import { errorMessage, send } from "@/lib/use-api";
 import type { User } from "@/types";
 
@@ -55,7 +56,9 @@ export function ProfilePage() {
       <PageHeader title="Profile" description="Manage your account details." />
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <h2 className="mb-4 font-semibold">Details</h2>
+          <h2 className="mb-4 font-semibold">Profile picture</h2>
+          <AvatarUploader />
+          <h2 className="mb-4 mt-6 border-t border-border pt-6 font-semibold">Details</h2>
           <form onSubmit={profile.handleSubmit(saveProfile)} noValidate className="space-y-4">
             {profileMsg && <Alert tone={profileMsg.tone}>{profileMsg.text}</Alert>}
             <Field label="Full name" htmlFor="name" error={profile.formState.errors.name?.message}>

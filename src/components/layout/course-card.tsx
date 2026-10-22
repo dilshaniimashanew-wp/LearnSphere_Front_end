@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { BookOpen, Clock, Users } from "lucide-react";
 import { Badge } from "@/components/ui/feedback";
+import { Stars } from "@/components/ui/stars";
 import { formatMinutes } from "@/lib/utils";
 import type { Course } from "@/types";
 
@@ -21,6 +22,7 @@ export function CourseCard({ course }: { course: Course }) {
         <h3 className="font-semibold group-hover:text-primary">{course.title}</h3>
         <p className="line-clamp-2 text-sm text-muted-foreground">{course.summary}</p>
         <p className="text-xs text-muted-foreground">by {course.instructor}</p>
+        <Stars value={course.rating} count={course.reviewCount} />
         <div className="mt-auto flex items-center gap-4 pt-2 text-xs text-muted-foreground">
           <span className="flex items-center gap-1">
             <Clock className="h-3.5 w-3.5" aria-hidden />

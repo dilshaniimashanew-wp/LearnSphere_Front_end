@@ -47,6 +47,8 @@ export interface Course {
   durationMinutes: number;
   lessonCount: number;
   students: number;
+  rating: number;
+  reviewCount: number;
   objectives: string[];
   prerequisites: string[];
   modules?: CourseModule[];
