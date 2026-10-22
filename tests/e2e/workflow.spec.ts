@@ -159,6 +159,13 @@ test("student registers, finds the course, enrolls and reads the announcement", 
   await student.getByRole("button", { name: "Enroll now" }).click();
   await expect(student).toHaveURL(/\/student\/courses\/[a-f0-9]{24}$/);
   await expect(student.getByText("Welcome aboard")).toBeVisible();
+
+  // An announcement posted now notifies the enrolled student.
+  await instructor.goto(courseUrl);
+  await instructor.locator("#an-title").fill("Quiz tomorrow");
+  await instructor.locator("#an-body").fill("Please revise all three lessons.");
+  await instructor.getByRole("button", { name: "Post announcement" }).click();
+  await expect(instructor.getByText("Quiz tomorrow")).toBeVisible();
 });
 
 test("student completes the lessons, passes the quiz and the course completes", async () => {
@@ -218,7 +225,7 @@ test("student submits the assignment; the instructor grades it; the student sees
   await student.goto("/student/notifications");
   await expect(student.getByText("Assignment graded")).toBeVisible();
   await expect(student.getByText("Course completed")).toBeVisible();
-  await expect(student.getByText(/Announcement: Welcome aboard/)).toBeVisible();
+  await expect(student.getByText("Announcement: Quiz tomorrow")).toBeVisible();
 
   // Anyone can verify the certificate, and sees only the minimum.
   const v = (await newUserPage(browser)).page;
