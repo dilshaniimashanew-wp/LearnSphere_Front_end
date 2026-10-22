@@ -26,7 +26,12 @@ export function CourseDetail({ slug }: { slug: string }) {
           <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
             <div className="space-y-8">
               <header>
-                <CourseBanner title={course.title} category={course.category} thumbnailUrl={course.thumbnailUrl} className="mb-5 h-44 rounded-xl sm:h-56" />
+                <CourseBanner
+                  title={course.title}
+                  category={course.category}
+                  thumbnailUrl={course.thumbnailUrl}
+                  className="mb-5 h-44 rounded-xl sm:h-56"
+                />
                 <div className="flex gap-2">
                   <Badge tone="info">{course.category}</Badge>
                   <Badge>{course.level}</Badge>
@@ -98,7 +103,11 @@ export function CourseDetail({ slug }: { slug: string }) {
 
             <aside>
               <Card className="sticky top-24 space-y-4">
-                {course.status === "published" ? <EnrollButton courseId={course.id} enrolled={course.enrolled} /> : <p className="text-sm text-muted-foreground">This course is not published yet.</p>}
+                {course.status === "published" ? (
+                  <EnrollButton courseId={course.id} enrolled={course.enrolled} />
+                ) : (
+                  <p className="text-sm text-muted-foreground">This course is not published yet.</p>
+                )}
                 <dl className="space-y-2 text-sm">
                   <div className="flex items-center justify-between">
                     <dt className="flex items-center gap-2 text-muted-foreground">

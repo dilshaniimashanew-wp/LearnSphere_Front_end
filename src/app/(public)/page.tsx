@@ -4,8 +4,16 @@ import { Card } from "@/components/ui/card";
 import { PopularCourses } from "@/features/courses/popular-courses";
 
 const features = [
-  { icon: BookOpen, title: "Structured courses", text: "Modules and lessons with text, video and resources, and automatic progress tracking." },
-  { icon: ClipboardCheck, title: "Quizzes & assignments", text: "Server-graded quizzes, file submissions, instructor grading and feedback." },
+  {
+    icon: BookOpen,
+    title: "Structured courses",
+    text: "Modules and lessons with text, video and resources, and automatic progress tracking.",
+  },
+  {
+    icon: ClipboardCheck,
+    title: "Quizzes & assignments",
+    text: "Server-graded quizzes, file submissions, instructor grading and feedback.",
+  },
   { icon: LineChart, title: "Track progress", text: "See completion, upcoming work and grades from one student dashboard." },
   { icon: Award, title: "Certificates", text: "Earn a verifiable certificate when you complete a course." },
   { icon: Users, title: "Built for instructors", text: "Create, publish and analyse your courses with simple tools." },
@@ -21,8 +29,8 @@ export default function HomePage() {
             Learn, teach and grow on one learning platform
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
-            LearnSphere lets instructors publish structured courses and students learn at their own pace, with quizzes,
-            assignments, progress tracking and certificates.
+            LearnSphere lets instructors publish structured courses and students learn at their own pace, with quizzes, assignments,
+            progress tracking and certificates.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <ButtonLink href="/courses" size="lg">

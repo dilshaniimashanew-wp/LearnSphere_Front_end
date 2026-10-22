@@ -50,7 +50,15 @@ export function NotificationsPage() {
               <li key={n.id}>
                 <Card className={cn("flex items-start justify-between gap-3 py-3", !n.read && "border-primary")}>
                   <div>
-                    <p className="font-medium">{n.link ? <Link href={n.link} className="hover:text-primary" onClick={() => !n.read && void markRead(n.id)}>{n.title}</Link> : n.title}</p>
+                    <p className="font-medium">
+                      {n.link ? (
+                        <Link href={n.link} className="hover:text-primary" onClick={() => !n.read && void markRead(n.id)}>
+                          {n.title}
+                        </Link>
+                      ) : (
+                        n.title
+                      )}
+                    </p>
                     <p className="text-sm text-muted-foreground">{n.body}</p>
                     <p className="mt-1 text-xs text-muted-foreground">{formatDate(n.createdAt)}</p>
                   </div>

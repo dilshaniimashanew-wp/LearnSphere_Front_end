@@ -43,7 +43,15 @@ export function AssignmentCard({ assignment: a, onChanged }: { assignment: Assig
           {a.course && <p className="text-sm text-muted-foreground">{a.course}</p>}
         </div>
         <div className="flex gap-2">
-          {s?.status === "graded" ? <Badge tone="success">graded</Badge> : s ? <Badge tone="info">submitted</Badge> : overdue ? <Badge tone="danger">overdue</Badge> : <Badge tone="warning">not submitted</Badge>}
+          {s?.status === "graded" ? (
+            <Badge tone="success">graded</Badge>
+          ) : s ? (
+            <Badge tone="info">submitted</Badge>
+          ) : overdue ? (
+            <Badge tone="danger">overdue</Badge>
+          ) : (
+            <Badge tone="warning">not submitted</Badge>
+          )}
           {s?.isLate && <Badge tone="warning">late</Badge>}
         </div>
       </div>

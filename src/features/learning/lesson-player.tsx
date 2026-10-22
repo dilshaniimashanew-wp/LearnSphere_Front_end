@@ -78,17 +78,28 @@ export function LessonPlayer({ courseId }: { courseId: string }) {
                   {embed ? (
                     <iframe className="aspect-video w-full rounded-lg" src={embed} title={current.title} allowFullScreen />
                   ) : current.videoUrl ? (
-                    <a href={current.videoUrl} target="_blank" rel="noopener noreferrer" className="flex aspect-video items-center justify-center rounded-lg bg-muted text-primary hover:underline">
+                    <a
+                      href={current.videoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex aspect-video items-center justify-center rounded-lg bg-muted text-primary hover:underline"
+                    >
                       <PlayCircle className="mr-2 h-8 w-8" aria-hidden /> Watch video
                     </a>
                   ) : null}
                   <div>
                     <p className="text-sm text-muted-foreground">{current.module}</p>
                     <h2 className="text-xl font-semibold">{current.title}</h2>
-                    <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">{current.content || "No written content for this lesson."}</p>
+                    <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">
+                      {current.content || "No written content for this lesson."}
+                    </p>
                   </div>
                   {error && <Alert tone="danger">{error}</Alert>}
-                  <Button variant={done.has(current.id) ? "outline" : "primary"} disabled={busy} onClick={() => void toggle(current.id, !done.has(current.id))}>
+                  <Button
+                    variant={done.has(current.id) ? "outline" : "primary"}
+                    disabled={busy}
+                    onClick={() => void toggle(current.id, !done.has(current.id))}
+                  >
                     {done.has(current.id) ? "Mark as not complete" : "Mark as complete"}
                   </Button>
                 </>
@@ -107,9 +118,16 @@ export function LessonPlayer({ courseId }: { courseId: string }) {
                         <button
                           onClick={() => setCurrentId(l.id)}
                           aria-current={l.id === current?.id ? "true" : undefined}
-                          className={cn("flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm", l.id === current?.id ? "bg-accent text-primary" : "hover:bg-muted")}
+                          className={cn(
+                            "flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm",
+                            l.id === current?.id ? "bg-accent text-primary" : "hover:bg-muted",
+                          )}
                         >
-                          {done.has(l.id) ? <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-label="Completed" /> : <Circle className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />}
+                          {done.has(l.id) ? (
+                            <CheckCircle2 className="h-4 w-4 shrink-0 text-success" aria-label="Completed" />
+                          ) : (
+                            <Circle className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
+                          )}
                           {l.title}
                         </button>
                       </li>
@@ -134,10 +152,17 @@ export function LessonPlayer({ courseId }: { courseId: string }) {
                 <Card key={q.id} className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
                     <p className="font-medium">{q.title}</p>
-                    {q.passed ? <Badge tone="success">passed</Badge> : q.attemptsUsed ? <Badge tone="warning">not passed</Badge> : <Badge>new</Badge>}
+                    {q.passed ? (
+                      <Badge tone="success">passed</Badge>
+                    ) : q.attemptsUsed ? (
+                      <Badge tone="warning">not passed</Badge>
+                    ) : (
+                      <Badge>new</Badge>
+                    )}
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {q.questionCount} questions, {Math.round(q.timeLimitSeconds / 60)} min, pass mark {q.passMark}%. Attempts {q.attemptsUsed ?? 0}/{q.maxAttempts}
+                    {q.questionCount} questions, {Math.round(q.timeLimitSeconds / 60)} min, pass mark {q.passMark}%. Attempts{" "}
+                    {q.attemptsUsed ?? 0}/{q.maxAttempts}
                     {q.bestScore != null && `, best ${q.bestScore}%`}.
                   </p>
                   <div className="flex gap-2">

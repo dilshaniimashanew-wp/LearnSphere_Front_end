@@ -42,9 +42,22 @@ export function CourseCatalog() {
       <div className="grid gap-3 sm:grid-cols-[1fr_200px_160px]" role="search">
         <div className="relative">
           <Search className="pointer-events-none absolute left-3 top-3 h-4 w-4 text-muted-foreground" aria-hidden />
-          <Input aria-label="Search courses" placeholder="Search courses" className="pl-9" value={query} onChange={(e) => setQuery(e.target.value)} />
+          <Input
+            aria-label="Search courses"
+            placeholder="Search courses"
+            className="pl-9"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
         </div>
-        <Select aria-label="Category" value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }}>
+        <Select
+          aria-label="Category"
+          value={category}
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setPage(1);
+          }}
+        >
           <option value="">All categories</option>
           {categories.data?.map((c) => (
             <option key={c.id} value={c.id}>
@@ -52,7 +65,14 @@ export function CourseCatalog() {
             </option>
           ))}
         </Select>
-        <Select aria-label="Level" value={level} onChange={(e) => { setLevel(e.target.value); setPage(1); }}>
+        <Select
+          aria-label="Level"
+          value={level}
+          onChange={(e) => {
+            setLevel(e.target.value);
+            setPage(1);
+          }}
+        >
           <option value="">All levels</option>
           <option value="beginner">Beginner</option>
           <option value="intermediate">Intermediate</option>

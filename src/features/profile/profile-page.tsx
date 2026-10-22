@@ -17,7 +17,11 @@ const profileSchema = z.object({ name: z.string().trim().min(2, "Name must be at
 const passwordSchema = z
   .object({
     currentPassword: z.string().min(1, "Enter your current password"),
-    newPassword: z.string().min(8, "Use at least 8 characters").regex(/[A-Z]/, "Include an uppercase letter").regex(/[0-9]/, "Include a number"),
+    newPassword: z
+      .string()
+      .min(8, "Use at least 8 characters")
+      .regex(/[A-Z]/, "Include an uppercase letter")
+      .regex(/[0-9]/, "Include a number"),
     confirm: z.string(),
   })
   .refine((v) => v.newPassword === v.confirm, { message: "Passwords do not match", path: ["confirm"] });
@@ -29,7 +33,10 @@ export function ProfilePage() {
   const [profileMsg, setProfileMsg] = useState<Msg>(null);
   const [passwordMsg, setPasswordMsg] = useState<Msg>(null);
 
-  const profile = useForm<z.infer<typeof profileSchema>>({ resolver: zodResolver(profileSchema), defaultValues: { name: user?.name ?? "" } });
+  const profile = useForm<z.infer<typeof profileSchema>>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: { name: user?.name ?? "" },
+  });
   const password = useForm<z.infer<typeof passwordSchema>>({ resolver: zodResolver(passwordSchema) });
 
   async function saveProfile(values: z.infer<typeof profileSchema>) {

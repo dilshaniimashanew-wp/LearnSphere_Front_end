@@ -24,7 +24,11 @@ const courseSchema = z.object({
 });
 
 type CourseValues = z.infer<typeof courseSchema>;
-const lines = (s: string) => s.split("\n").map((x) => x.trim()).filter(Boolean);
+const lines = (s: string) =>
+  s
+    .split("\n")
+    .map((x) => x.trim())
+    .filter(Boolean);
 
 export function CourseForm({ course, onSaved }: { course?: Course; onSaved?: () => void }) {
   const router = useRouter();
@@ -50,7 +54,12 @@ export function CourseForm({ course, onSaved }: { course?: Course; onSaved?: () 
 
   async function onSubmit(values: CourseValues) {
     // An empty thumbnail URL clears it, so the generated banner is used instead.
-    const payload = { ...values, objectives: lines(values.objectives), prerequisites: lines(values.prerequisites), thumbnailUrl: values.thumbnailUrl || null };
+    const payload = {
+      ...values,
+      objectives: lines(values.objectives),
+      prerequisites: lines(values.prerequisites),
+      thumbnailUrl: values.thumbnailUrl || null,
+    };
     try {
       if (course) {
         await send("PATCH", `/courses/${course.id}`, payload);
@@ -100,7 +109,13 @@ export function CourseForm({ course, onSaved }: { course?: Course; onSaved?: () 
           </Field>
         </div>
         <Field label="Banner image URL (optional)" htmlFor="thumbnailUrl" error={errors.thumbnailUrl?.message}>
-          <Input id="thumbnailUrl" type="url" placeholder="https://... (leave empty for an automatic banner)" aria-invalid={!!errors.thumbnailUrl} {...register("thumbnailUrl")} />
+          <Input
+            id="thumbnailUrl"
+            type="url"
+            placeholder="https://... (leave empty for an automatic banner)"
+            aria-invalid={!!errors.thumbnailUrl}
+            {...register("thumbnailUrl")}
+          />
         </Field>
         <Field label="Learning objectives (one per line)" htmlFor="objectives" error={errors.objectives?.message}>
           <Textarea id="objectives" rows={3} {...register("objectives")} />

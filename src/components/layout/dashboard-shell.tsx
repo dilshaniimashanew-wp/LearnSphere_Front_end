@@ -4,8 +4,23 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
-  BarChart3, Bell, BookOpen, ClipboardList, FileCheck2, FolderTree, GraduationCap, LayoutDashboard,
-  LogOut, Menu, ScrollText, ShieldCheck, Users, X, Award, UserCircle, type LucideIcon,
+  BarChart3,
+  Bell,
+  BookOpen,
+  ClipboardList,
+  FileCheck2,
+  FolderTree,
+  GraduationCap,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  ScrollText,
+  ShieldCheck,
+  Users,
+  X,
+  Award,
+  UserCircle,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
@@ -123,7 +138,12 @@ export function DashboardShell({ role, children }: { role: Role; children: React
         {open && (
           <div className="border-b border-border bg-card md:hidden">
             {nav}
-            <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
+            <SidebarUser
+              name={user.name}
+              avatarUrl={user.avatarUrl}
+              role={role}
+              onLogout={() => void logout().then(() => router.push("/"))}
+            />
           </div>
         )}
         <main className="mx-auto max-w-5xl p-4 md:p-8">{children}</main>

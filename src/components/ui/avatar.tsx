@@ -15,7 +15,10 @@ export function Avatar({ name, url, className }: { name: string; url?: string; c
     return <img src={url} alt="" className={cn("h-9 w-9 shrink-0 rounded-full object-cover", className)} />;
   }
   return (
-    <span aria-hidden className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-primary", className)}>
+    <span
+      aria-hidden
+      className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium text-primary", className)}
+    >
       {initials(name)}
     </span>
   );

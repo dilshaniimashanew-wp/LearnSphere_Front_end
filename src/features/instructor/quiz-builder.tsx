@@ -60,7 +60,10 @@ export function QuizBuilder({ courseId }: { courseId: string }) {
           type: x.type,
           prompt: x.prompt,
           options: x.type === "true_false" ? [] : x.options.map((o) => o.text),
-          correctIndex: Math.max(0, x.options.findIndex((o) => o.id === x.correctOptionId)),
+          correctIndex: Math.max(
+            0,
+            x.options.findIndex((o) => o.id === x.correctOptionId),
+          ),
         })),
       });
     } catch (e) {
@@ -118,13 +121,32 @@ export function QuizBuilder({ courseId }: { courseId: string }) {
           <Plus className="h-4 w-4" aria-hidden /> New quiz
         </Button>
       ) : (
-        <QuizForm key={draft.id ?? "new"} initial={draft} error={error} onSave={save} onCancel={() => { setDraft(null); setError(null); }} />
+        <QuizForm
+          key={draft.id ?? "new"}
+          initial={draft}
+          error={error}
+          onSave={save}
+          onCancel={() => {
+            setDraft(null);
+            setError(null);
+          }}
+        />
       )}
     </section>
   );
 }
 
-function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; error: string | null; onSave: (d: QuizDraft) => Promise<void>; onCancel: () => void }) {
+function QuizForm({
+  initial,
+  error,
+  onSave,
+  onCancel,
+}: {
+  initial: QuizDraft;
+  error: string | null;
+  onSave: (d: QuizDraft) => Promise<void>;
+  onCancel: () => void;
+}) {
   const [d, setD] = useState<QuizDraft>(initial);
   const [busy, setBusy] = useState(false);
   const editing = !!initial.id;
@@ -150,13 +172,34 @@ function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; er
         </Field>
         <div className="grid gap-3 sm:grid-cols-3">
           <Field label="Pass mark (%)" htmlFor="qz-pass">
-            <Input id="qz-pass" type="number" min={1} max={100} value={d.passMark} onChange={(e) => setD({ ...d, passMark: Number(e.target.value) })} />
+            <Input
+              id="qz-pass"
+              type="number"
+              min={1}
+              max={100}
+              value={d.passMark}
+              onChange={(e) => setD({ ...d, passMark: Number(e.target.value) })}
+            />
           </Field>
           <Field label="Time limit (min)" htmlFor="qz-time">
-            <Input id="qz-time" type="number" min={1} max={180} value={d.minutes} onChange={(e) => setD({ ...d, minutes: Number(e.target.value) })} />
+            <Input
+              id="qz-time"
+              type="number"
+              min={1}
+              max={180}
+              value={d.minutes}
+              onChange={(e) => setD({ ...d, minutes: Number(e.target.value) })}
+            />
           </Field>
           <Field label="Max attempts" htmlFor="qz-att">
-            <Input id="qz-att" type="number" min={1} max={20} value={d.attempts} onChange={(e) => setD({ ...d, attempts: Number(e.target.value) })} />
+            <Input
+              id="qz-att"
+              type="number"
+              min={1}
+              max={20}
+              value={d.attempts}
+              onChange={(e) => setD({ ...d, attempts: Number(e.target.value) })}
+            />
           </Field>
         </div>
 
@@ -173,7 +216,11 @@ function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; er
                   value={q.type}
                   onChange={(e) => {
                     const type = e.target.value as Q["type"];
-                    setQ(i, { type, correctIndex: 0, options: type === "multiple_choice" && q.options.length < 2 ? ["", "", "", ""] : q.options });
+                    setQ(i, {
+                      type,
+                      correctIndex: 0,
+                      options: type === "multiple_choice" && q.options.length < 2 ? ["", "", "", ""] : q.options,
+                    });
                   }}
                 >
                   <option value="multiple_choice">Multiple choice</option>
@@ -185,7 +232,13 @@ function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; er
               <div className="flex gap-4 text-sm">
                 {["True", "False"].map((label, idx) => (
                   <label key={label} className="flex items-center gap-2">
-                    <input type="radio" name={`correct-${i}`} checked={q.correctIndex === idx} onChange={() => setQ(i, { correctIndex: idx })} /> {label} is correct
+                    <input
+                      type="radio"
+                      name={`correct-${i}`}
+                      checked={q.correctIndex === idx}
+                      onChange={() => setQ(i, { correctIndex: idx })}
+                    />{" "}
+                    {label} is correct
                   </label>
                 ))}
               </div>
@@ -193,8 +246,19 @@ function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; er
               <div className="space-y-2">
                 {q.options.map((o, idx) => (
                   <div key={idx} className="flex items-center gap-2">
-                    <input type="radio" name={`correct-${i}`} aria-label={`Option ${idx + 1} is correct`} checked={q.correctIndex === idx} onChange={() => setQ(i, { correctIndex: idx })} />
-                    <Input aria-label={`Option ${idx + 1}`} placeholder={`Option ${idx + 1}`} value={o} onChange={(e) => setQ(i, { options: q.options.map((x, k) => (k === idx ? e.target.value : x)) })} />
+                    <input
+                      type="radio"
+                      name={`correct-${i}`}
+                      aria-label={`Option ${idx + 1} is correct`}
+                      checked={q.correctIndex === idx}
+                      onChange={() => setQ(i, { correctIndex: idx })}
+                    />
+                    <Input
+                      aria-label={`Option ${idx + 1}`}
+                      placeholder={`Option ${idx + 1}`}
+                      value={o}
+                      onChange={(e) => setQ(i, { options: q.options.map((x, k) => (k === idx ? e.target.value : x)) })}
+                    />
                   </div>
                 ))}
                 <div className="flex items-center gap-3">
@@ -203,12 +267,19 @@ function QuizForm({ initial, error, onSave, onCancel }: { initial: QuizDraft; er
                       Add option
                     </Button>
                   )}
-                  <p className="text-xs text-muted-foreground">Select the radio button next to the correct answer. Empty options are ignored.</p>
+                  <p className="text-xs text-muted-foreground">
+                    Select the radio button next to the correct answer. Empty options are ignored.
+                  </p>
                 </div>
               </div>
             )}
             {d.questions.length > 1 && (
-              <Button type="button" variant="ghost" size="sm" onClick={() => setD({ ...d, questions: d.questions.filter((_, k) => k !== i) })}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setD({ ...d, questions: d.questions.filter((_, k) => k !== i) })}
+              >
                 <Trash2 className="h-4 w-4" aria-hidden /> Remove question
               </Button>
             )}

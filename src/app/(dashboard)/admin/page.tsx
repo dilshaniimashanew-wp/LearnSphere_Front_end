@@ -28,7 +28,11 @@ export default function AdminOverviewPage() {
         {data && (
           <>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              <StatCard label="Users" value={data.users} hint={`${data.usersByRole.student ?? 0} students, ${data.usersByRole.instructor ?? 0} instructors`} />
+              <StatCard
+                label="Users"
+                value={data.users}
+                hint={`${data.usersByRole.student ?? 0} students, ${data.usersByRole.instructor ?? 0} instructors`}
+              />
               <StatCard label="Published courses" value={data.publishedCourses} hint={`${data.pendingCourses} awaiting approval`} />
               <StatCard label="Enrollments" value={data.enrollments} hint={`${data.completedEnrollments} completed`} />
               <StatCard label="Completion rate" value={`${data.completionRate}%`} />
@@ -37,7 +41,9 @@ export default function AdminOverviewPage() {
             </div>
             <h2 className="mb-3 mt-8 text-lg font-semibold">Pending approvals</h2>
             <Card className="flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">{data.pendingCourses} course{data.pendingCourses === 1 ? " is" : "s are"} waiting for review.</p>
+              <p className="text-sm text-muted-foreground">
+                {data.pendingCourses} course{data.pendingCourses === 1 ? " is" : "s are"} waiting for review.
+              </p>
               <ButtonLink href="/admin/courses" variant="outline" size="sm">
                 Review
               </ButtonLink>

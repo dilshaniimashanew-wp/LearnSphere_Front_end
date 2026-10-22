@@ -22,7 +22,10 @@ export default function InstructorCoursesPage() {
       <PageHeader title="My courses" action={<ButtonLink href="/instructor/courses/new">New course</ButtonLink>} />
       <Query loading={loading} error={error}>
         {data?.length === 0 ? (
-          <EmptyState title="You have not created a course" action={<ButtonLink href="/instructor/courses/new">Create your first course</ButtonLink>} />
+          <EmptyState
+            title="You have not created a course"
+            action={<ButtonLink href="/instructor/courses/new">Create your first course</ButtonLink>}
+          />
         ) : (
           <DataTable caption="Your courses" columns={["Course", "Status", "Lessons", "Students", "Actions"]}>
             {data?.map((c) => (

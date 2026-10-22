@@ -62,9 +62,17 @@ export function CourseEditor({ courseId }: { courseId: string }) {
           {c.status === "pending_review" && <Alert tone="info">Waiting for admin approval. You can keep editing content.</Alert>}
 
           <div className="flex flex-wrap gap-2">
-            {canSubmit && <Button onClick={() => void act(`/courses/${c.id}/submit-review`, "Submitted for review.")}>Submit for review</Button>}
+            {canSubmit && (
+              <Button onClick={() => void act(`/courses/${c.id}/submit-review`, "Submitted for review.")}>Submit for review</Button>
+            )}
             {c.status !== "archived" && (
-              <Button variant="outline" onClick={() => window.confirm("Archive this course? Students will no longer be able to enroll.") && void act(`/courses/${c.id}/archive`, "Course archived.")}>
+              <Button
+                variant="outline"
+                onClick={() =>
+                  window.confirm("Archive this course? Students will no longer be able to enroll.") &&
+                  void act(`/courses/${c.id}/archive`, "Course archived.")
+                }
+              >
                 Archive
               </Button>
             )}
