@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { api } from "@/lib/api";
 import { queryClient } from "@/lib/query-client";
 import type { Role, User } from "@/types";
@@ -33,9 +33,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // Tracks whether someone is signed in, for the handler below (which must not re-subscribe on every change).
+  const signedIn = useRef(false);
+  useEffect(() => {
+    signedIn.current = user !== null;
+  }, [user]);
+
   // api() fires this when a session can no longer be refreshed.
   useEffect(() => {
     const expire = () => {
+      // A signed-out visitor also triggers this on every page load. Clearing the cache then would
+      // discard the page's own in-flight requests and leave it stuck loading, so only clear for a real sign-out.
+      if (!signedIn.current) return;
       queryClient.clear();
       setUser(null);
     };

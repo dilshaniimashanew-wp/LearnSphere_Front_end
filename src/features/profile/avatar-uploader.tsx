@@ -63,6 +63,7 @@ export function AvatarUploader() {
           <input
             ref={input}
             id="avatar-file"
+            aria-label="Choose a profile picture"
             type="file"
             accept="image/jpeg,image/png,image/webp"
             className="sr-only"
