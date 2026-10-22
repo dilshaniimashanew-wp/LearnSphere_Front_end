@@ -6,19 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Alert } from "@/components/ui/feedback";
 import { Field, Input, Select, Textarea } from "@/components/ui/form";
+import { moved } from "@/lib/reorder";
 import { errorMessage, send } from "@/lib/use-api";
 import { cn } from "@/lib/utils";
 import type { Course } from "@/types";
 
 type Drag = { kind: "module"; id: string } | { kind: "lesson"; id: string } | null;
-
-/** Returns a copy of `ids` with `id` removed and re-inserted before `beforeId` (or at the end). */
-function moved(ids: string[], id: string, beforeId?: string) {
-  const rest = ids.filter((x) => x !== id);
-  const at = beforeId ? rest.indexOf(beforeId) : -1;
-  rest.splice(at === -1 ? rest.length : at, 0, id);
-  return rest;
-}
 
 export function CurriculumManager({ course, onChanged }: { course: Course; onChanged: () => void }) {
   const [moduleTitle, setModuleTitle] = useState("");
