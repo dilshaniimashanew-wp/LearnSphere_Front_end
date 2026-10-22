@@ -2,6 +2,7 @@
 
 import { notFound } from "next/navigation";
 import { CheckCircle2, Clock, PlayCircle, Users } from "lucide-react";
+import { CourseBanner } from "@/components/layout/course-banner";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/feedback";
 import { Query } from "@/components/ui/query";
@@ -25,6 +26,7 @@ export function CourseDetail({ slug }: { slug: string }) {
           <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
             <div className="space-y-8">
               <header>
+                <CourseBanner title={course.title} category={course.category} thumbnailUrl={course.thumbnailUrl} className="mb-5 h-44 rounded-xl sm:h-56" />
                 <div className="flex gap-2">
                   <Badge tone="info">{course.category}</Badge>
                   <Badge>{course.level}</Badge>

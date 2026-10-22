@@ -37,6 +37,7 @@ export interface Course {
   title: string;
   summary: string;
   description: string;
+  thumbnailUrl?: string | null;
   categoryId: string;
   category: string;
   level: Level;
