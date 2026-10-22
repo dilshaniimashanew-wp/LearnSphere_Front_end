@@ -8,18 +8,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/feedback";
 import { Field, Input } from "@/components/ui/form";
-import { DEMO_MODE, homePathFor, useAuth } from "@/features/auth/auth-context";
+import { homePathFor, useAuth } from "@/features/auth/auth-context";
 import { loginSchema, type LoginValues } from "@/features/auth/schemas";
 import { ApiRequestError } from "@/lib/api";
 import type { Role } from "@/types";
 
+// Sample accounts created by `npm run seed:demo` in the API project. Shown only when enabled.
+const SHOW_DEMO = process.env.NEXT_PUBLIC_SHOW_DEMO_ACCOUNTS === "true";
+const demoAccounts = [
+  { label: "Student", email: "nimali@learnsphere.test", password: "Student@12345" },
+  { label: "Instructor", email: "amara@learnsphere.test", password: "Instructor@12345" },
+  { label: "Admin", email: "admin@learnsphere.test", password: "Admin@12345" },
+];
+
 export default function LoginPage() {
-  const { login, loginAsDemo } = useAuth();
+  const { login } = useAuth();
   const router = useRouter();
   const [formError, setFormError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginValues>({ resolver: zodResolver(loginSchema) });
 
@@ -62,13 +71,22 @@ export default function LoginPage() {
         </Button>
       </form>
 
-      {DEMO_MODE && (
+      {SHOW_DEMO && (
         <div className="mt-6 border-t border-border pt-4">
-          <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">Demo mode: explore as</p>
+          <p className="mb-2 text-xs font-medium uppercase text-muted-foreground">Demo accounts: fill the form</p>
           <div className="grid grid-cols-3 gap-2">
-            {(["student", "instructor", "admin"] as const).map((role) => (
-              <Button key={role} variant="outline" size="sm" className="capitalize" onClick={() => router.push(destination(loginAsDemo(role).role))}>
-                {role}
+            {demoAccounts.map((a) => (
+              <Button
+                key={a.label}
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setValue("email", a.email, { shouldValidate: true });
+                  setValue("password", a.password, { shouldValidate: true });
+                }}
+              >
+                {a.label}
               </Button>
             ))}
           </div>
