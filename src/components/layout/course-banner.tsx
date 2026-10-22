@@ -65,7 +65,11 @@ export function CourseBanner({
   const id = `b${h}`;
 
   return (
-    <div aria-hidden className={cn("relative h-32 w-full overflow-hidden", className)} style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}>
+    <div
+      aria-hidden
+      className={cn("relative h-32 w-full overflow-hidden", className)}
+      style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
+    >
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 50" preserveAspectRatio="xMidYMid slice">
         <defs>
           <pattern id={id} width="6" height="6" patternUnits="userSpaceOnUse">

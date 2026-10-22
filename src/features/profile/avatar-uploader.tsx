@@ -60,7 +60,15 @@ export function AvatarUploader() {
       <div className="flex items-center gap-4">
         <Avatar name={user?.name ?? ""} url={user?.avatarUrl} className="h-20 w-20 text-xl" />
         <div className="space-y-2">
-          <input ref={input} id="avatar-file" type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" onChange={(e) => void onPick(e)} />
+          <input
+            ref={input}
+            id="avatar-file"
+            aria-label="Choose a profile picture"
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="sr-only"
+            onChange={(e) => void onPick(e)}
+          />
           <div className="flex gap-2">
             <Button type="button" size="sm" variant="outline" disabled={busy} onClick={() => input.current?.click()}>
               {user?.avatarUrl ? "Change picture" : "Upload picture"}

@@ -24,7 +24,13 @@ export function AssignmentManager({ courseId }: { courseId: string }) {
     e.preventDefault();
     setError(null);
     try {
-      await send("POST", `/courses/${courseId}/assignments`, { title: title.trim(), instructions: instructions.trim(), dueAt: new Date(dueAt).toISOString(), maxPoints, allowResubmission: resubmit });
+      await send("POST", `/courses/${courseId}/assignments`, {
+        title: title.trim(),
+        instructions: instructions.trim(),
+        dueAt: new Date(dueAt).toISOString(),
+        maxPoints,
+        allowResubmission: resubmit,
+      });
       setOpen(false);
       setTitle("");
       setInstructions("");
@@ -43,7 +49,8 @@ export function AssignmentManager({ courseId }: { courseId: string }) {
         <Card key={a.id} className="py-3">
           <p className="font-medium">{a.title}</p>
           <p className="text-sm text-muted-foreground">
-            Due {formatDate(a.dueAt)} &middot; {a.maxPoints} points &middot; {a.allowResubmission ? "resubmission allowed" : "single submission"}
+            Due {formatDate(a.dueAt)} &middot; {a.maxPoints} points &middot;{" "}
+            {a.allowResubmission ? "resubmission allowed" : "single submission"}
           </p>
         </Card>
       ))}
@@ -61,7 +68,14 @@ export function AssignmentManager({ courseId }: { courseId: string }) {
               <Input id="as-title" required minLength={2} value={title} onChange={(e) => setTitle(e.target.value)} />
             </Field>
             <Field label="Instructions" htmlFor="as-ins">
-              <Textarea id="as-ins" required minLength={5} rows={4} value={instructions} onChange={(e) => setInstructions(e.target.value)} />
+              <Textarea
+                id="as-ins"
+                required
+                minLength={5}
+                rows={4}
+                value={instructions}
+                onChange={(e) => setInstructions(e.target.value)}
+              />
             </Field>
             <div className="grid gap-3 sm:grid-cols-2">
               <Field label="Due date" htmlFor="as-due">

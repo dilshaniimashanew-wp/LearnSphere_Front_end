@@ -71,8 +71,21 @@ export function ReviewsSection({ courseId, onChanged }: { courseId: string; onCh
               <div className="flex gap-1">
                 {[1, 2, 3, 4, 5].map((n) => (
                   <label key={n} className="cursor-pointer">
-                    <input type="radio" name="rating" value={n} className="peer sr-only" checked={currentRating === n} onChange={() => setRating(n)} />
-                    <Star className={cn("h-7 w-7 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-primary", currentRating >= n ? "fill-warning text-warning" : "text-border")} aria-hidden />
+                    <input
+                      type="radio"
+                      name="rating"
+                      value={n}
+                      className="peer sr-only"
+                      checked={currentRating === n}
+                      onChange={() => setRating(n)}
+                    />
+                    <Star
+                      className={cn(
+                        "h-7 w-7 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-primary",
+                        currentRating >= n ? "fill-warning text-warning" : "text-border",
+                      )}
+                      aria-hidden
+                    />
                     <span className="sr-only">
                       {n} star{n === 1 ? "" : "s"}
                     </span>

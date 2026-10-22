@@ -68,7 +68,14 @@ export function AnnouncementsPanel({ courseId, canPost = false }: { courseId: st
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium">{a.title}</p>
                 {canPost && (
-                  <Button variant="ghost" size="sm" aria-label={`Delete announcement ${a.title}`} onClick={() => window.confirm("Delete this announcement?") && void send("DELETE", `/announcements/${a.id}`).then(reload)}>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    aria-label={`Delete announcement ${a.title}`}
+                    onClick={() =>
+                      window.confirm("Delete this announcement?") && void send("DELETE", `/announcements/${a.id}`).then(reload)
+                    }
+                  >
                     <Trash2 className="h-4 w-4" aria-hidden />
                   </Button>
                 )}

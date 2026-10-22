@@ -2,10 +2,25 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
-  BarChart3, Bell, BookOpen, ClipboardList, FileCheck2, FolderTree, GraduationCap, LayoutDashboard,
-  LogOut, Menu, ScrollText, ShieldCheck, Users, X, Award, UserCircle, type LucideIcon,
+  BarChart3,
+  Bell,
+  BookOpen,
+  ClipboardList,
+  FileCheck2,
+  FolderTree,
+  GraduationCap,
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  ScrollText,
+  ShieldCheck,
+  Users,
+  X,
+  Award,
+  UserCircle,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/avatar";
@@ -52,12 +67,20 @@ export function DashboardShell({ role, children }: { role: Role; children: React
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  // Signing out empties `user`; without this the guard below would send the user to /login instead of home.
+  const signingOut = useRef(false);
 
   useEffect(() => {
-    if (loading) return;
+    if (loading || signingOut.current) return;
     if (!user) router.replace(`/login?next=${encodeURIComponent(pathname)}`);
     else if (user.role !== role) router.replace(homePathFor(user.role));
   }, [loading, user, role, router, pathname]);
+
+  async function signOut() {
+    signingOut.current = true;
+    await logout();
+    router.push("/");
+  }
 
   if (loading || !user || user.role !== role) {
     return (
@@ -102,7 +125,7 @@ export function DashboardShell({ role, children }: { role: Role; children: React
           LearnSphere
         </Link>
         {nav}
-        <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
+        <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void signOut()} />
       </aside>
 
       <div className="flex-1">
@@ -123,7 +146,7 @@ export function DashboardShell({ role, children }: { role: Role; children: React
         {open && (
           <div className="border-b border-border bg-card md:hidden">
             {nav}
-            <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void logout().then(() => router.push("/"))} />
+            <SidebarUser name={user.name} avatarUrl={user.avatarUrl} role={role} onLogout={() => void signOut()} />
           </div>
         )}
         <main className="mx-auto max-w-5xl p-4 md:p-8">{children}</main>

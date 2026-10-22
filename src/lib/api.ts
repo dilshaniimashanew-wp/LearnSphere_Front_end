@@ -18,7 +18,11 @@ const NO_REFRESH = ["/auth/login", "/auth/register", "/auth/refresh", "/auth/log
 let refreshing: Promise<boolean> | null = null;
 
 function refreshSession() {
-  refreshing ??= fetch(`${API_URL}/auth/refresh`, { method: "POST", credentials: "include", headers: { "Content-Type": "application/json" } })
+  refreshing ??= fetch(`${API_URL}/auth/refresh`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+  })
     .then((res) => res.ok)
     .catch(() => false)
     .finally(() => {

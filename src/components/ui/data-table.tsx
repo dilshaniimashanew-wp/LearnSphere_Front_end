@@ -1,12 +1,4 @@
-export function DataTable({
-  columns,
-  children,
-  caption,
-}: {
-  columns: string[];
-  children: React.ReactNode;
-  caption: string;
-}) {
+export function DataTable({ columns, children, caption }: { columns: string[]; children: React.ReactNode; caption: string }) {
   return (
     <div className="overflow-x-auto rounded-xl border border-border bg-card">
       <table className="w-full text-left text-sm">

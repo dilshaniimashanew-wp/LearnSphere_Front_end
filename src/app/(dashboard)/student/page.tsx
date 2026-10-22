@@ -21,7 +21,11 @@ export default function StudentDashboard() {
   const { data, error, loading } = useApi<Summary>("/student/summary");
   return (
     <>
-      <PageHeader title="Dashboard" description="Pick up where you left off." action={<ButtonLink href="/courses">Find courses</ButtonLink>} />
+      <PageHeader
+        title="Dashboard"
+        description="Pick up where you left off."
+        action={<ButtonLink href="/courses">Find courses</ButtonLink>}
+      />
       <Query loading={loading} error={error}>
         {data && (
           <>
@@ -33,7 +37,11 @@ export default function StudentDashboard() {
 
             <h2 className="mb-3 mt-8 text-lg font-semibold">Continue learning</h2>
             {data.progress.length === 0 ? (
-              <EmptyState title="No active courses" description="Enroll in a course to start learning." action={<ButtonLink href="/courses">Browse courses</ButtonLink>} />
+              <EmptyState
+                title="No active courses"
+                description="Enroll in a course to start learning."
+                action={<ButtonLink href="/courses">Browse courses</ButtonLink>}
+              />
             ) : (
               <div className="grid gap-4 sm:grid-cols-2">
                 {data.progress.map((p) => (

@@ -75,14 +75,21 @@ export function QuizTaker({ quizId }: { quizId: string }) {
       {quiz.data && (
         <>
           <PageHeader title={quiz.data.title} description={quiz.data.instructions} />
-          {error && <div className="mb-4"><Alert tone="danger">{error}</Alert></div>}
+          {error && (
+            <div className="mb-4">
+              <Alert tone="danger">{error}</Alert>
+            </div>
+          )}
 
           {!attempt ? (
             <Card className="space-y-3">
               <p className="text-sm">
-                {quiz.data.questions.length} questions &middot; {Math.round(quiz.data.timeLimitSeconds / 60)} minute limit &middot; pass mark {quiz.data.passMark}% &middot; up to {quiz.data.maxAttempts} attempts.
+                {quiz.data.questions.length} questions &middot; {Math.round(quiz.data.timeLimitSeconds / 60)} minute limit &middot; pass
+                mark {quiz.data.passMark}% &middot; up to {quiz.data.maxAttempts} attempts.
               </p>
-              <p className="text-sm text-muted-foreground">The timer starts as soon as you begin. Your answers are submitted automatically when time runs out.</p>
+              <p className="text-sm text-muted-foreground">
+                The timer starts as soon as you begin. Your answers are submitted automatically when time runs out.
+              </p>
               <Button onClick={() => void start()} disabled={busy}>
                 {busy ? "Starting..." : "Start quiz"}
               </Button>
@@ -95,7 +102,11 @@ export function QuizTaker({ quizId }: { quizId: string }) {
               }}
               className="space-y-4"
             >
-              <div className="sticky top-0 z-10 flex items-center justify-between rounded-lg border border-border bg-card px-4 py-2" role="timer" aria-live="off">
+              <div
+                className="sticky top-0 z-10 flex items-center justify-between rounded-lg border border-border bg-card px-4 py-2"
+                role="timer"
+                aria-live="off"
+              >
                 <span className="flex items-center gap-2 text-sm">
                   <Timer className="h-4 w-4" aria-hidden /> Time left
                 </span>
@@ -109,8 +120,17 @@ export function QuizTaker({ quizId }: { quizId: string }) {
                     </legend>
                     <div className="mt-3 space-y-2">
                       {q.options.map((o) => (
-                        <label key={o.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted">
-                          <input type="radio" name={q.id} value={o.id} checked={answers[q.id] === o.id} onChange={() => setAnswers({ ...answers, [q.id]: o.id })} />
+                        <label
+                          key={o.id}
+                          className="flex cursor-pointer items-center gap-3 rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted"
+                        >
+                          <input
+                            type="radio"
+                            name={q.id}
+                            value={o.id}
+                            checked={answers[q.id] === o.id}
+                            onChange={() => setAnswers({ ...answers, [q.id]: o.id })}
+                          />
                           {o.text}
                         </label>
                       ))}

@@ -34,15 +34,34 @@ export default function AdminUsersPage() {
     <>
       <PageHeader title="Users" description="Manage accounts and status." />
       <div className="mb-4 grid gap-3 sm:grid-cols-[1fr_180px]">
-        <Input aria-label="Search users" placeholder="Search by name or email" value={q} onChange={(e) => { setQ(e.target.value); setPage(1); }} />
-        <Select aria-label="Role" value={role} onChange={(e) => { setRole(e.target.value); setPage(1); }}>
+        <Input
+          aria-label="Search users"
+          placeholder="Search by name or email"
+          value={q}
+          onChange={(e) => {
+            setQ(e.target.value);
+            setPage(1);
+          }}
+        />
+        <Select
+          aria-label="Role"
+          value={role}
+          onChange={(e) => {
+            setRole(e.target.value);
+            setPage(1);
+          }}
+        >
           <option value="">All roles</option>
           <option value="student">Students</option>
           <option value="instructor">Instructors</option>
           <option value="admin">Admins</option>
         </Select>
       </div>
-      {error && <div className="mb-4"><Alert tone="danger">{error}</Alert></div>}
+      {error && (
+        <div className="mb-4">
+          <Alert tone="danger">{error}</Alert>
+        </div>
+      )}
       <Query loading={loading && !data} error={loadError}>
         <DataTable caption="All users" columns={["Name", "Email", "Role", "Status", "Actions"]}>
           {data?.items.map((u) => (

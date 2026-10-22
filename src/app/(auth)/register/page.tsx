@@ -56,7 +56,13 @@ export default function RegisterPage() {
           <Input id="password" type="password" autoComplete="new-password" aria-invalid={!!errors.password} {...register("password")} />
         </Field>
         <Field label="Confirm password" htmlFor="confirmPassword" error={errors.confirmPassword?.message}>
-          <Input id="confirmPassword" type="password" autoComplete="new-password" aria-invalid={!!errors.confirmPassword} {...register("confirmPassword")} />
+          <Input
+            id="confirmPassword"
+            type="password"
+            autoComplete="new-password"
+            aria-invalid={!!errors.confirmPassword}
+            {...register("confirmPassword")}
+          />
         </Field>
         <Button type="submit" className="w-full" disabled={isSubmitting}>
           {isSubmitting ? "Creating account..." : "Create account"}
@@ -65,7 +71,7 @@ export default function RegisterPage() {
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Already have an account?{" "}
-        <Link href="/login" className="text-primary hover:underline">
+        <Link href="/login" className="text-primary underline underline-offset-2 hover:no-underline">
           Sign in
         </Link>
       </p>

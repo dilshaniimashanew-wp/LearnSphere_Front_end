@@ -27,22 +27,11 @@ type Props = VariantProps<typeof buttonVariants> & {
   children: React.ReactNode;
 };
 
-export function Button({
-  variant,
-  size,
-  className,
-  ...props
-}: Props & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+export function Button({ variant, size, className, ...props }: Props & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />;
 }
 
-export function ButtonLink({
-  variant,
-  size,
-  className,
-  href,
-  children,
-}: Props & { href: string }) {
+export function ButtonLink({ variant, size, className, href, children }: Props & { href: string }) {
   return (
     <Link href={href} className={cn(buttonVariants({ variant, size }), className)}>
       {children}

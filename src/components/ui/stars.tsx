@@ -3,7 +3,10 @@ import { cn } from "@/lib/utils";
 
 /** Read-only star rating. The visible stars are decorative; the label carries the value. */
 export function Stars({ value, count, className }: { value: number; count?: number; className?: string }) {
-  const label = count === 0 || !value ? "No ratings yet" : `${value} out of 5${count !== undefined ? `, ${count} review${count === 1 ? "" : "s"}` : ""}`;
+  const label =
+    count === 0 || !value
+      ? "No ratings yet"
+      : `${value} out of 5${count !== undefined ? `, ${count} review${count === 1 ? "" : "s"}` : ""}`;
   return (
     <span className={cn("inline-flex items-center gap-1 text-xs text-muted-foreground", className)} role="img" aria-label={label}>
       <span className="flex" aria-hidden>

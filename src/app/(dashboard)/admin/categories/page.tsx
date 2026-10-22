@@ -45,10 +45,21 @@ export default function CategoriesPage() {
     <>
       <PageHeader title="Categories" description="Used to organise the course catalog." />
       <form onSubmit={add} className="mb-6 flex max-w-md gap-2">
-        <Input aria-label="New category name" placeholder="New category" required minLength={2} value={name} onChange={(e) => setName(e.target.value)} />
+        <Input
+          aria-label="New category name"
+          placeholder="New category"
+          required
+          minLength={2}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <Button type="submit">Add</Button>
       </form>
-      {message && <div className="mb-4"><Alert tone="danger">{message}</Alert></div>}
+      {message && (
+        <div className="mb-4">
+          <Alert tone="danger">{message}</Alert>
+        </div>
+      )}
       <Query loading={loading} error={error}>
         <div className="grid gap-3 sm:grid-cols-2">
           {data?.map((c) => (
@@ -56,7 +67,13 @@ export default function CategoriesPage() {
               <span>
                 {c.name} <span className="text-sm text-muted-foreground">({c.courses} courses)</span>
               </span>
-              <Button variant="ghost" size="sm" disabled={c.courses > 0} title={c.courses > 0 ? "Categories with courses cannot be deleted" : undefined} onClick={() => void remove(c)}>
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={c.courses > 0}
+                title={c.courses > 0 ? "Categories with courses cannot be deleted" : undefined}
+                onClick={() => void remove(c)}
+              >
                 Remove
               </Button>
             </Card>

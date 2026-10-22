@@ -86,7 +86,15 @@ function SubmissionCard({ s, onGraded }: { s: Row; onGraded: () => void }) {
       )}
       <form onSubmit={grade} className="grid gap-3 sm:grid-cols-[140px_1fr_auto] sm:items-end">
         <Field label={`Points (max ${s.maxPoints})`} htmlFor={`pts-${s.id}`}>
-          <Input id={`pts-${s.id}`} type="number" min={0} max={s.maxPoints} step="any" value={points} onChange={(e) => setPoints(Number(e.target.value))} />
+          <Input
+            id={`pts-${s.id}`}
+            type="number"
+            min={0}
+            max={s.maxPoints}
+            step="any"
+            value={points}
+            onChange={(e) => setPoints(Number(e.target.value))}
+          />
         </Field>
         <Field label="Feedback" htmlFor={`fb-${s.id}`}>
           <Textarea id={`fb-${s.id}`} rows={2} value={feedback} onChange={(e) => setFeedback(e.target.value)} />

@@ -43,7 +43,11 @@ export default function CourseApprovalsPage() {
   return (
     <>
       <PageHeader title="Course approvals" description="Review courses submitted by instructors." />
-      {message && <div className="mb-4"><Alert tone={message.tone}>{message.text}</Alert></div>}
+      {message && (
+        <div className="mb-4">
+          <Alert tone={message.tone}>{message.text}</Alert>
+        </div>
+      )}
       <Query loading={loading} error={error}>
         {data?.length === 0 ? (
           <EmptyState title="Nothing to review" description="New submissions will appear here." />
