@@ -33,6 +33,7 @@ const navByRole: Record<Role, NavItem[]> = {
     { href: "/instructor/courses", label: "My courses", icon: BookOpen },
     { href: "/instructor/submissions", label: "Submissions", icon: FileCheck2 },
     { href: "/instructor/analytics", label: "Analytics", icon: BarChart3 },
+    { href: "/instructor/notifications", label: "Notifications", icon: Bell },
     { href: "/instructor/profile", label: "Profile", icon: UserCircle },
   ],
   admin: [

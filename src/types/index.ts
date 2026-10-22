@@ -105,3 +105,9 @@ export interface QuizSummary {
   bestScore?: number | null;
   latestAttemptId?: string | null;
 }
+
+export interface ApiError {
+  code: string;
+  message: string;
+  details?: unknown[];
+}
