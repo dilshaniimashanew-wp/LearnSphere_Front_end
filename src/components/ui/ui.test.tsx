@@ -71,7 +71,8 @@ describe("Query", () => {
         content
       </Query>,
     );
-    expect(screen.getByLabelText("Loading")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByRole("status")).toHaveAttribute("aria-busy", "true");
+    expect(screen.getByText("Loading")).toBeInTheDocument();
     expect(screen.queryByText("content")).not.toBeInTheDocument();
   });
 

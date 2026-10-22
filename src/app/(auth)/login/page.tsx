@@ -62,7 +62,7 @@ export default function LoginPage() {
           <Input id="password" type="password" autoComplete="current-password" aria-invalid={!!errors.password} {...register("password")} />
         </Field>
         <div className="text-right text-sm">
-          <Link href="/forgot-password" className="text-primary hover:underline">
+          <Link href="/forgot-password" className="text-primary underline underline-offset-2 hover:no-underline">
             Forgot password?
           </Link>
         </div>
@@ -95,7 +95,7 @@ export default function LoginPage() {
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         New to LearnSphere?{" "}
-        <Link href="/register" className="text-primary hover:underline">
+        <Link href="/register" className="text-primary underline underline-offset-2 hover:no-underline">
           Create an account
         </Link>
       </p>

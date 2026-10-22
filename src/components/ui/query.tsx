@@ -4,7 +4,8 @@ import { Alert, Skeleton } from "@/components/ui/feedback";
 export function Query({ loading, error, children }: { loading: boolean; error: string | null; children: React.ReactNode }) {
   if (loading) {
     return (
-      <div className="space-y-3" aria-busy="true" aria-label="Loading">
+      <div className="space-y-3" role="status" aria-busy="true">
+        <span className="sr-only">Loading</span>
         <Skeleton className="h-8 w-48" />
         <Skeleton className="h-24 w-full" />
         <Skeleton className="h-24 w-full" />
