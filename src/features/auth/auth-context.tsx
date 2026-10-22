@@ -2,6 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
 import type { Role, User } from "@/types";
 import type { LoginValues, RegisterValues } from "./schemas";
 
@@ -34,13 +35,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // api() fires this when a session can no longer be refreshed.
   useEffect(() => {
-    const expire = () => setUser(null);
+    const expire = () => {
+      queryClient.clear();
+      setUser(null);
+    };
     window.addEventListener("auth:expired", expire);
     return () => window.removeEventListener("auth:expired", expire);
   }, []);
 
   const login = useCallback(async (values: LoginValues) => {
     const u = await api<User>("/auth/login", { method: "POST", body: JSON.stringify(values) });
+    queryClient.clear();
     setUser(u);
     return u;
   }, []);
@@ -53,6 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = useCallback(async () => {
     await api("/auth/logout", { method: "POST" }).catch(() => undefined);
+    queryClient.clear();
     setUser(null);
   }, []);
 

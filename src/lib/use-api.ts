@@ -1,7 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ApiRequestError, api } from "@/lib/api";
+import { queryClient } from "@/lib/query-client";
 
 export function errorMessage(e: unknown, fallback = "Something went wrong. Please try again.") {
   if (e instanceof ApiRequestError) {
@@ -11,37 +13,30 @@ export function errorMessage(e: unknown, fallback = "Something went wrong. Pleas
   return fallback;
 }
 
-/** Loads GET `path` (pass null to skip). `reload()` refetches after a mutation. */
+/**
+ * Loads GET `path` (pass null to skip). Results are cached and shared between components,
+ * and `reload()` refetches. Mutations made with `send()` refresh every query automatically.
+ */
 export function useApi<T>(path: string | null) {
-  const [data, setData] = useState<T | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(path !== null);
-  const [tick, setTick] = useState(0);
+  const query = useQuery<T>({
+    queryKey: ["api", path],
+    queryFn: () => api<T>(path as string),
+    enabled: path !== null,
+  });
+  const { refetch } = query;
+  const reload = useCallback(() => void refetch(), [refetch]);
 
-  useEffect(() => {
-    if (path === null) return;
-    let active = true;
-    api<T>(path)
-      .then((d) => {
-        if (!active) return;
-        setData(d);
-        setError(null);
-      })
-      .catch((e) => {
-        if (active) setError(errorMessage(e, "Could not load data. Is the API running?"));
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [path, tick]);
-
-  const reload = useCallback(() => setTick((t) => t + 1), []);
-  return { data, error, loading, reload, setData };
+  return {
+    data: query.data ?? null,
+    error: query.error ? errorMessage(query.error, "Could not load data. Is the API running?") : null,
+    loading: path !== null && query.isLoading,
+    reload,
+  };
 }
 
-export function send<T = unknown>(method: "POST" | "PUT" | "PATCH" | "DELETE", path: string, body?: unknown) {
-  return api<T>(path, { method, body: body === undefined ? undefined : JSON.stringify(body) });
+export async function send<T = unknown>(method: "POST" | "PUT" | "PATCH" | "DELETE", path: string, body?: unknown) {
+  const result = await api<T>(path, { method, body: body === undefined ? undefined : JSON.stringify(body) });
+  // Any change can affect several screens (dashboards, lists, notifications), so refresh all cached data.
+  void queryClient.invalidateQueries({ queryKey: ["api"] });
+  return result;
 }
