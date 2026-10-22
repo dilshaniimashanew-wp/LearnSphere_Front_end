@@ -1,11 +1,8 @@
 import { expect, test } from "@playwright/test";
-import { PASSWORD, register, signIn, uniqueEmail } from "./helpers";
+import { PASSWORD, appAlert, register, signIn, uniqueEmail } from "./helpers";
 
-// A 2x2 PNG image.
-const PNG = Buffer.from(
-  "iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAFElEQVR4nGP8z8Dwn4EIwDiqkL4KAF1iA/9H+vDQAAAAAElFTkSuQmCC",
-  "base64",
-);
+// A valid 8x8 red PNG.
+const PNG = Buffer.from("iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAEUlEQVR4nGO4o6aGFTEMLQkAF/tKAS/fz4YAAAAASUVORK5CYII=", "base64");
 
 test("a user can set and remove a profile picture, rename themselves and change their password", async ({ page }) => {
   const email = uniqueEmail("profile");
@@ -46,7 +43,7 @@ test("a user can set and remove a profile picture, rename themselves and change 
 
   await page.getByRole("button", { name: "Sign out" }).click();
   await signIn(page, email, PASSWORD);
-  await expect(page.getByRole("alert")).toContainText("Invalid email or password");
+  await expect(appAlert(page)).toContainText("Invalid email or password");
   await signIn(page, email, "BrandNew123");
   await expect(page).toHaveURL(/\/student$/);
 });

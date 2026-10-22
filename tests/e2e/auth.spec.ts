@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { DEMO, PASSWORD, register, signIn, uniqueEmail } from "./helpers";
+import { DEMO, PASSWORD, appAlert, register, signIn, uniqueEmail } from "./helpers";
 
 test.describe("authentication and route protection", () => {
   test("shows field errors, then a server error for wrong credentials", async ({ page }) => {
@@ -9,7 +9,7 @@ test.describe("authentication and route protection", () => {
     await expect(page.getByText("Password is required")).toBeVisible();
 
     await signIn(page, DEMO.student.email, "WrongPassword1");
-    await expect(page.getByRole("alert")).toContainText("Invalid email or password");
+    await expect(appAlert(page)).toContainText("Invalid email or password");
     await expect(page).toHaveURL(/\/login/);
   });
 
@@ -71,7 +71,7 @@ test.describe("authentication and route protection", () => {
     await page.getByLabel("Password", { exact: true }).fill(PASSWORD);
     await page.getByLabel("Confirm password").fill(PASSWORD);
     await page.getByRole("button", { name: "Create account" }).click();
-    await expect(page.getByRole("alert")).toContainText("already exists");
+    await expect(appAlert(page)).toContainText("already exists");
   });
 
   test("the public registration form only offers student and instructor", async ({ page }) => {

@@ -32,3 +32,6 @@ export async function newUserPage(browser: Browser) {
   const context = await browser.newContext();
   return { page: await context.newPage(), context };
 }
+
+/** The app's own alert messages (Next.js also renders an empty role="alert" route announcer). */
+export const appAlert = (page: Page) => page.locator('[role="alert"]:not(#__next-route-announcer__)');
