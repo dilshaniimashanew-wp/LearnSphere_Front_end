@@ -250,5 +250,7 @@ test("student reviews the completed course and the rating appears in the catalog
 
   await student.goto("/courses");
   await student.getByLabel("Search courses").fill(COURSE);
-  await expect(student.getByRole("img", { name: "5 out of 5, 1 review" })).toBeVisible();
+  // Wait for the (debounced) search to narrow the list, then check the rating on that course's card.
+  await expect(student.getByText("1 course found")).toBeVisible();
+  await expect(student.getByRole("link", { name: new RegExp(COURSE) }).getByRole("img", { name: "5 out of 5, 1 review" })).toBeVisible();
 });
