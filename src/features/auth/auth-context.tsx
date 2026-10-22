@@ -32,6 +32,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  // api() fires this when a session can no longer be refreshed.
+  useEffect(() => {
+    const expire = () => setUser(null);
+    window.addEventListener("auth:expired", expire);
+    return () => window.removeEventListener("auth:expired", expire);
+  }, []);
+
   const login = useCallback(async (values: LoginValues) => {
     const u = await api<User>("/auth/login", { method: "POST", body: JSON.stringify(values) });
     setUser(u);
