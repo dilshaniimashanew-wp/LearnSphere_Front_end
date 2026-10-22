@@ -9,7 +9,8 @@ import { Card } from "@/components/ui/card";
 import { Alert, PageHeader } from "@/components/ui/feedback";
 import { Field, Input } from "@/components/ui/form";
 import { useAuth } from "@/features/auth/auth-context";
-import { api } from "@/lib/api";
+import { errorMessage, send } from "@/lib/use-api";
+import type { User } from "@/types";
 
 const profileSchema = z.object({ name: z.string().trim().min(2, "Name must be at least 2 characters").max(80) });
 const passwordSchema = z
@@ -20,29 +21,32 @@ const passwordSchema = z
   })
   .refine((v) => v.newPassword === v.confirm, { message: "Passwords do not match", path: ["confirm"] });
 
-export function ProfilePage() {
-  const { user } = useAuth();
-  const [profileMsg, setProfileMsg] = useState<string | null>(null);
-  const [passwordMsg, setPasswordMsg] = useState<{ tone: "success" | "danger"; text: string } | null>(null);
+type Msg = { tone: "success" | "danger"; text: string } | null;
 
-  const profile = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: { name: user?.name ?? "" },
-  });
+export function ProfilePage() {
+  const { user, setUser } = useAuth();
+  const [profileMsg, setProfileMsg] = useState<Msg>(null);
+  const [passwordMsg, setPasswordMsg] = useState<Msg>(null);
+
+  const profile = useForm<z.infer<typeof profileSchema>>({ resolver: zodResolver(profileSchema), defaultValues: { name: user?.name ?? "" } });
   const password = useForm<z.infer<typeof passwordSchema>>({ resolver: zodResolver(passwordSchema) });
 
   async function saveProfile(values: z.infer<typeof profileSchema>) {
-    await api("/users/me", { method: "PATCH", body: JSON.stringify(values) }).catch(() => undefined);
-    setProfileMsg("Profile saved.");
+    try {
+      setUser(await send<User>("PATCH", "/users/me", values));
+      setProfileMsg({ tone: "success", text: "Profile saved." });
+    } catch (e) {
+      setProfileMsg({ tone: "danger", text: errorMessage(e) });
+    }
   }
 
   async function changePassword({ currentPassword, newPassword }: z.infer<typeof passwordSchema>) {
     try {
-      await api("/users/me/password", { method: "PATCH", body: JSON.stringify({ currentPassword, newPassword }) });
+      await send("PATCH", "/users/me/password", { currentPassword, newPassword });
       setPasswordMsg({ tone: "success", text: "Password updated." });
       password.reset();
-    } catch {
-      setPasswordMsg({ tone: "danger", text: "Could not update password. Check your current password." });
+    } catch (e) {
+      setPasswordMsg({ tone: "danger", text: errorMessage(e) });
     }
   }
 
@@ -53,7 +57,7 @@ export function ProfilePage() {
         <Card>
           <h2 className="mb-4 font-semibold">Details</h2>
           <form onSubmit={profile.handleSubmit(saveProfile)} noValidate className="space-y-4">
-            {profileMsg && <Alert tone="success">{profileMsg}</Alert>}
+            {profileMsg && <Alert tone={profileMsg.tone}>{profileMsg.text}</Alert>}
             <Field label="Full name" htmlFor="name" error={profile.formState.errors.name?.message}>
               <Input id="name" {...profile.register("name")} />
             </Field>

@@ -1,8 +1,7 @@
 import { Award, BookOpen, ClipboardCheck, LineChart, ShieldCheck, Users } from "lucide-react";
-import { CourseCard } from "@/components/layout/course-card";
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { courses } from "@/lib/mock-data";
+import { PopularCourses } from "@/features/courses/popular-courses";
 
 const features = [
   { icon: BookOpen, title: "Structured courses", text: "Modules and lessons with text, video and resources, and automatic progress tracking." },
@@ -56,11 +55,7 @@ export default function HomePage() {
             View all
           </ButtonLink>
         </div>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {courses.map((c) => (
-            <CourseCard key={c.id} course={c} />
-          ))}
-        </div>
+        <PopularCourses />
       </section>
     </>
   );
